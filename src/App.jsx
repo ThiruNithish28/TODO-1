@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Nav from "./componets/Nav";
 import Form from "./componets/Form";
 import TaskBox from "./componets/TaskBox";
 
 function App() {
   const [isFormShow, setIsFormShow] = new useState(false);
   const [editTaskId, setEditTaskId] = new useState(null);
+  const [filter, setFilter] = new useState("");
 
   // toogle for form
   const showForm = () => {
@@ -53,9 +53,24 @@ function App() {
     setIsFormShow(false);
   };
 
+  const filterByCatorgy=(e)=>{
+    console.log(e.target.value);
+    setFilter(e.target.value);
+  }
   return (
     <div className="task-container">
       <h1>Tasks</h1>
+
+      <div className="filter">
+        <select name="filterOption" id="filterOption" onChange={filterByCatorgy}>
+          <option value="">select the category</option>
+          {
+            [...new Set(task.map(t=> t.category))].map(catorgy=>
+              <option key={catorgy} value={catorgy}>{catorgy}</option>
+            )
+          }
+        </select>
+      </div>
 
       {isFormShow ? (
         <Form
@@ -67,10 +82,11 @@ function App() {
         />
       ) : (
         <ul className="taskList d-flex flex-column">
-          {task.map((task) => (
-            <li>
+        {task
+          .filter((t) => filter === "" || t.category === filter)
+          .map((task) => (
+            <li key={task.id}>
               <TaskBox
-                key={task.id}
                 task={task}
                 onDelete={deleteTask}
                 onCompleted={taskCompleted}
@@ -78,7 +94,7 @@ function App() {
               />
             </li>
           ))}
-        </ul>
+      </ul>
       )}
 
       {!isFormShow ? (

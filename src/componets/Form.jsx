@@ -19,7 +19,7 @@ export default function Form({ onAddTask, editTaskDetails, onEditTask }) {
     e.preventDefault();
 
     if (editTaskDetails) {
-      onEditTask(taskDetails); // for edit task
+      onEditTask(taskDetails); // for edit task  
     } else {
       onAddTask(taskDetails); // for add task
     }
@@ -28,6 +28,7 @@ export default function Form({ onAddTask, editTaskDetails, onEditTask }) {
       desc: "",
       category: "",
       date: "",
+      isCompleted: false
     });
   };
 
@@ -80,7 +81,7 @@ export default function Form({ onAddTask, editTaskDetails, onEditTask }) {
         </div>
 
         <button type="submit" className="btn btn-primary mt-4">
-          add task
+        {editTaskDetails ? "Update Task" : "Add Task"}
         </button>
       </form>
     </>

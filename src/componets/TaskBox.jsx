@@ -8,7 +8,7 @@ export default function TaskBox({task, onDelete, onCompleted, onEdit}){
             <div>
             {task.isCompleted ? <h3 className="taskCompleted">{task.taskName}</h3> : <h3>{task.taskName}</h3>}
             <span>{task.desc}</span>
-            <span>{task.date}</span>
+            <p>Due : {task.dueDate} - {task.dueTime}</p>
             </div>
            
             <div className="taskBox-icons">

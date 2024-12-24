@@ -4,14 +4,17 @@ import TaskBox from "./componets/TaskBox";
 
 function App() {
   const [isFormShow, setIsFormShow] = useState(false);
+  const [isFilterBtnShow, setIsFilterBtnShow] = useState(true);
   const [editTaskId, setEditTaskId] = useState(null);
 
   const [filter, setFilter] = useState("");
   const filterRef = useRef(""); // for the perfomance we use useRef which will not rerender when it store the value;
+  
 
   // toogle for form
   const showForm = () => {
     setIsFormShow(!isFormShow);
+    setIsFilterBtnShow(!isFilterBtnShow);
   };
 
   // task array where all listed task will show
@@ -24,6 +27,7 @@ function App() {
   const addTask = (newTask) => {
     setTask((prevTask) => [...prevTask, { ...newTask, id: Date.now() }]);
     setIsFormShow(!isFormShow);
+    setIsFilterBtnShow(!isFilterBtnShow);
   };
 
   //delete the task
@@ -45,6 +49,7 @@ function App() {
   const editTask = (taskId) => {
     setEditTaskId(taskId);
     setIsFormShow(true);
+    setIsFilterBtnShow(!isFilterBtnShow);
   };
 
   // update the edit one to task array
@@ -56,6 +61,7 @@ function App() {
     );
     setEditTaskId(null);
     setIsFormShow(false);
+    setIsFilterBtnShow(!isFilterBtnShow);
   };
 
   const filterBycategory = (e) => {
@@ -74,6 +80,7 @@ function App() {
   return savedTasks ? savedTasks : [];
 };
 
+// add the task when the task state is updated 
 useEffect(() => {
   localStorage.setItem("task", JSON.stringify(task));
 }, [task]);
@@ -82,24 +89,26 @@ useEffect(() => {
     <div className="task-container">
       <h1>Tasks</h1>
 
-      <div className="filter">
+      { isFilterBtnShow &&
+        <div className="filter">
+        category : 
         <select
           name="filterOption"
           id="filterOption"
           onChange={filterBycategory}
         >
-          <option value="">select the category</option>
+          <option value="">all</option>
 
           {[...new Set(task.map((t) => t.category))].filter(category => category.trim() !== "").map((category) => (
             <option key={category} value={category}>
               {category}
             </option>
           ))}
-
-          {task.length !== 0 && <option value="">all</option>}
         </select>
       </div>
 
+      }
+      
       {isFormShow ? (
         <Form
           onAddTask={addTask}
@@ -125,13 +134,11 @@ useEffect(() => {
         </ul>
       )}
 
-      {!isFormShow ? (
+      {!isFormShow && 
         <button className="btn btn-primary addTaskBtn" onClick={showForm}>
           Add Task
         </button>
-      ) : (
-        " "
-      )}
+      }
     </div>
   );
 }

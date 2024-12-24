@@ -6,7 +6,8 @@ export default function Form({ onAddTask, editTaskDetails, onEditTask }) {
       taskName: "",
       desc: "",
       category: "",
-      date: "",
+      dueDate: "",
+      dueTime:"",
       isCompleted: false,
     }
   );
@@ -27,7 +28,8 @@ export default function Form({ onAddTask, editTaskDetails, onEditTask }) {
       taskName: "",
       desc: "",
       category: "",
-      date: "",
+      dueDate: "",
+      dueTime:"",
       isCompleted: false
     });
   };
@@ -73,10 +75,23 @@ export default function Form({ onAddTask, editTaskDetails, onEditTask }) {
           <label>Due Date:</label>
           <input
             type="date"
-            name="date"
+            name="dueDate"
             id="task-date"
-            value={taskDetails.date}
+            value={taskDetails.dueDate}
             onChange={handleFormInput}
+            required
+          />
+        </div>
+
+        <div className="d-flex  align-items-center">
+          <label>Due time:</label>
+          <input
+            type="time"
+            name="dueTime"
+            id="due-time"
+            value={taskDetails.dueTime}
+            onChange={handleFormInput}
+            required
           />
         </div>
 
